@@ -37,12 +37,14 @@ read_fgd_dem <- function(file, resolution = c(5, 10),
   . <- value <- NULL
   output_type <-
     rlang::arg_match(return_class)
-  if (resolution == 5) {
+  if (missing(resolution) || isTRUE(resolution == 5)) {
     grid_size <- list(x = 225, y = 150)
     xml_opts <- "NOBLANKS"
-  } else if (resolution == 10) {
+  } else if (isTRUE(resolution == 10)) {
     grid_size <- list(x = 1125, y = 750)
     xml_opts <- "HUGE"
+  } else {
+    rlang::abort("resolution must be either 5 or 10")
   }
   checked <-
     dem_check(file, .verbose = FALSE, options = xml_opts)
